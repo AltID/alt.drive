@@ -13,6 +13,7 @@
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]
 
+pub mod kdf;
 pub mod secretbox;
 
 use zeroize::{Zeroize, ZeroizeOnDrop};
