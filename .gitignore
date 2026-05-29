@@ -1,0 +1,25 @@
+# Rust build artifacts
+target/
+**/*.rs.bk
+*.pdb
+
+# Cargo
+Cargo.lock.bak
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Local environment
+.env
+.env.local
+
+# Claude Code project-local state (mirrors what's in vivian-main/.gitignore convention)
+.claude/agent-memory/
+.claude/settings.local.json
+
+# OS
+Thumbs.db

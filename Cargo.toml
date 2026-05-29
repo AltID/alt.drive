@@ -1,0 +1,27 @@
+[workspace]
+members = ["crates/altdrive-core"]
+resolver = "2"
+
+[workspace.package]
+version = "0.0.1"
+edition = "2021"
+rust-version = "1.75"
+license = "MIT OR Apache-2.0"
+authors = ["Chase Pettet <chase@owasp.org>"]
+repository = "https://github.com/chasemp/alt-drive"
+
+[workspace.dependencies]
+# Only deps that are actually driven by a passing test belong here.
+# Add to this list when a test forces it; do not add speculatively.
+
+# Secure memory: zeroize secret material in place and on drop.
+# Used by SymKey (the 32-byte newtype underlying every key in the
+# Alt.Drive key hierarchy).
+zeroize = { version = "1", features = ["zeroize_derive"] }
+
+[profile.release]
+# Crypto code is sensitive to compiler optimizations that could
+# introduce side channels. Standard release profile for now; revisit
+# during Phase 1 audit-prep.
+lto = "thin"
+codegen-units = 1
