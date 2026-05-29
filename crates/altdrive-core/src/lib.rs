@@ -13,6 +13,8 @@
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]
 
+pub mod secretbox;
+
 use zeroize::{Zeroize, ZeroizeOnDrop};
 
 /// A 32-byte symmetric key.

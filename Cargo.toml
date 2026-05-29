@@ -19,6 +19,13 @@ repository = "https://github.com/chasemp/alt-drive"
 # Alt.Drive key hierarchy).
 zeroize = { version = "1", features = ["zeroize_derive"] }
 
+# Pure-Rust libsodium-compatible crypto primitives.
+# Used by secretbox::{seal, open} (XSalsa20-Poly1305 AEAD on small
+# fields — wraps the key hierarchy and manifest entries) and the OS
+# CSPRNG wrapper for nonce generation. Algorithm names map 1:1 to
+# DESIGN.md §3.
+dryoc = "0.8"
+
 [profile.release]
 # Crypto code is sensitive to compiler optimizations that could
 # introduce side channels. Standard release profile for now; revisit
