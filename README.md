@@ -509,3 +509,16 @@ Architectural context lives in the parent project's transcript library:
 - `../vivian-main/transcripts/raw/255-spritely-lemmer-webber-ocap-petnames-research-gemini.md` — the capability-security landscape research
 - `../vivian-main/transcripts/raw/257-bluesky-atproto-protocols-not-platforms-kleppmann-lemmer-webber-critique-gemini.md` — the shared-heap-vs-message-passing critique that shaped the P2P choice
 - `../vivian-main/transcripts/topics/cross-cutting-themes-254-263.md` §I — consolidated platform-vs-product spine
+
+The Claude-era derivation of the **upper layers** Alt.Drive is the substrate for
+(messaging, social, economic, cooperative), and the transport/iOS design session:
+
+- `../vivian-main/transcripts/raw/269-p2p-chat-architecture-iroh-willow-coop-claude.md` — the full upper-layer stack (chat → social → economic → cooperative); independently converged on Alt.Drive's substrate primitives
+- `../vivian-main/transcripts/raw/270-p2p-founder-motivations-adoption-maintenance-quote-claude.md` — founder-motivation / adoption research; the chasm hypothesis and "the co-op is the maintenance plan"
+- `../vivian-main/transcripts/raw/271-altdrive-vs-269-veilid-unified-substrate-ios-feasibility-claude.md` — the design session: Alt.Drive ↔ 269/270, Veilid evaluation, the unified-substrate move, the iOS feasibility verdict, and the transport-port/breakpoint approach
+- `../vivian-main/transcripts/topics/sovereign-p2p-social-coop-stack.md` — the de-duplicated synthesis of the above
+
+### Planning docs in this repo
+
+- [`docs/roadmap.md`](docs/roadmap.md) — Now / Next / After + the open-decisions register
+- [`docs/transport-layers.md`](docs/transport-layers.md) — the iroh-vs-Veilid layer map, the breakpoint, and the narrow-port guardrail

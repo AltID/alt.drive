@@ -7,6 +7,12 @@ and explicit acceptance criteria — the goal is *learning*, not building.
 If a spike misses its time-box twice, stop and rethink the design. Phase 0
 is the only chance to course-correct cheaply.
 
+There is also a seventh, **deferred** spike (Spike 7 — iOS-iroh-blob runtime)
+that cannot run in the early days for lack of a physical iOS device. It is
+parked behind the transport port (`transport-layers.md`) rather than gating
+Phase 0. See its entry below and `roadmap.md` for why the layer map stands in
+for it in the meantime.
+
 ---
 
 ## Spike 1 — iroh-docs trivial manifest sync
@@ -356,6 +362,72 @@ bottom of the doc. Once Phase 0 closes, consolidate into the body.
 - A short retrospective at `docs/spike-results/retro.md`: what we
   learned, what surprised us, what we'd change about the Phase 0
   approach next time
+
+---
+
+## Spike 7 — iOS-iroh-blob runtime feasibility (DEFERRED)
+
+**Time-box**: ~1 week — **when a physical iOS device is available**
+**Owner**: TBD
+**Status**: DEFERRED. No iOS device in the early days. Parked behind the
+transport port; the layer map (`transport-layers.md`) is the interim
+de-risking mechanism. Runs as a checkpoint during Phase 3 (or whenever
+hardware appears), not as a Phase 0 gate.
+
+### Goal
+
+Establish whether the iroh-backed Rust core survives iOS's lifecycle well
+enough to sync blobs from an always-on peer. This is the single genuinely
+unproven variable in the transport choice — and the trigger for the
+`transport-layers.md` breakpoint (iroh → Veilid) if it fails.
+
+### Question to answer
+
+*Can a Rust + iroh core, wrapped via UniFFI, fetch a content-addressed blob
+on a real iPhone with acceptable background / battery / cellular-NAT
+behavior, woken by an APNs push from the always-on peer?*
+
+### Approach
+
+1. Rust lib (iroh + iroh-blobs) → UniFFI → bare Swift iOS app that connects
+   to a NUC/desktop peer and fetches one content-addressed blob. (No full
+   FileProvider extension needed for the spike — `BGTaskScheduler` + a
+   manually-fired APNs push from the NUC is enough to measure runtime.)
+2. Run on a **physical iPhone, not the Simulator** — UDP/QUIC, carrier NAT,
+   background, and battery need a real device on real networks.
+
+### Acceptance criteria
+
+- Builds for `aarch64-apple-ios` and runs on-device.
+- Foreground blob fetch from the peer over home wifi **and** over cellular
+  (proves hole-punch/relay from a carrier-NAT'd iPhone).
+- **wifi ↔ cellular mid-transfer handoff** recovers (the Berty-killer).
+- APNs-woken background sync completes inside the background window.
+- Battery cost of a connected-idle period + a sync burst is "acceptable,"
+  not uninstall-grade.
+
+### Deliverables
+
+- `crates/altdrive-spike-ios/` + a minimal Swift app (throwaway).
+- `docs/spike-results/07-ios.md`: the five measurements + a go/no-go.
+
+### Risks
+
+- iOS forbids arbitrary background daemons; the feasible model is
+  FileProvider + always-on-peer + APNs-wake, **not** a full always-on peer.
+- No documented iroh-on-iOS-in-production reference exists (Veilid's
+  VeilidChat shipping on iOS is *suggestive* that a Rust P2P stack can, but
+  Veilid ≠ iroh).
+- Simulator / cloud device farms confirm build + foreground only; they do
+  not retire the background/battery/NAT risk.
+
+### If this fails
+
+Trigger the `transport-layers.md` breakpoint: either (a) drop to a
+FileProvider-only opportunistic model (no live connection; "syncs when
+foregrounded/refreshed" — still a fine vault, weaker messaging), or
+(b) swap the transport adapter to Veilid (which has the iOS existence
+proof) and accept reimplementing blob transfer.
 
 ---
 

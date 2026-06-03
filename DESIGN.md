@@ -322,6 +322,16 @@ iroh-blobs so the integration is clean. We don't need full CRDT semantics
 (no concurrent edits to the same map entry need merging) — we need
 last-writer-wins, which iroh-docs gives us.
 
+> **Scope note (added 2026-06-03, from transcripts 269/271):** the "no
+> concurrent edits need merging" premise holds **only for static / append
+> artifacts** (files, photos, append-only logs). The upper-layer vision
+> (messaging as vault artifacts) introduces **interactive** artifacts —
+> editable messages, reactions, read receipts, kudos — that *do* need merge.
+> Those ride an **Automerge** layer (persisted as vault blobs), not iroh-docs
+> LWW. The rule: declare the consistency model **per artifact type** so LWW
+> never clobbers a CRDT doc. This is an After-layer addition (see
+> `docs/roadmap.md`); v0's manifest stays LWW.
+
 **Fallback if iroh-docs proves unfit (e.g., maturity issues, semantics
 mismatch): custom version-vector sync (Syncthing-shape).** That fallback is
 specified in §6.4.
@@ -585,7 +595,12 @@ README's "What v0 IS NOT" section flagged this explicitly.
 
 4. **Manifest growth**: large vaults produce large iroh-docs replicas.
    Untested at scale. v0 caps: 10,000 files per vault (will be enforced
-   by the app); larger is unsupported.
+   by the app); larger is unsupported. **Messaging-aware note (2026-06-03):**
+   if the vault becomes the messaging substrate (transcripts 269/271), this
+   cap is load-bearing — segment conversation logs (one manifest entry per
+   *segment*, not per message) and design the manifest **Willow-shaped** (the
+   deterministic encrypted-path keys are already proto-Willow paths) so a
+   later migration to Willow or a custom version-vector store stays feasible.
 
 5. **Per-chunk auth tag overhead**: 1 MiB chunks with 17 bytes overhead =
    ~0.0016% overhead. Negligible.
@@ -670,6 +685,9 @@ Phase 0 is done when:
 | 2026-05-28 | Rust core + Swift UniFFI for macOS app | Rust core stays cross-platform; Swift gives native macOS UX |
 | 2026-05-28 | No server-side recovery | Trust-model alignment; document the failure mode loudly |
 | 2026-05-28 | 6-digit pairing code + visual phrase confirmation | Defense in depth against MitM during pairing |
+| 2026-06-03 | **Transport: iroh, but under evaluation behind a port** | iroh shipped **1.0.0-rc.0** (derisks API churn — the transcripts' "v0.97/60-version-gap" framing is stale); our own UniFFI surface insulates us from iroh-ffi (tier-2). **But** iroh's on-device iOS runtime is unproven, so transport sits behind a narrow `BlobTransport`/`ManifestSync` port with **Veilid** as a swap candidate. Decisive fact: iroh-blobs is the breakpoint layer (Veilid has no equivalent). See `docs/transport-layers.md`. |
+| 2026-06-03 | **Interactive artifacts use Automerge, not LWW** | The unified-substrate vision (messaging = vault artifacts) needs merge for editable/collaborative artifacts; static artifacts stay iroh-docs LWW. Consistency model declared per artifact type. After-layer; not v0. |
+| 2026-06-03 | **iOS spike deferred, not gating** | No physical iOS device in early days; the layer map + port is the interim de-risking. See Spike 7 in `docs/phase-0-spikes.md`. |
 
 ---
 
@@ -700,3 +718,12 @@ Phase 0 is done when:
 | Proton Drive SDK | https://github.com/ProtonDriveApps/sdk | Multi-recipient sharing, native UX |
 | libsodium docs | https://libsodium.gitbook.io/doc/ | Algorithm parameters and security notes |
 | BIP39 spec | https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki | Mnemonic encoding/decoding |
+
+### Design context / decision provenance (in-repo + library)
+
+| Doc | Path | What it holds |
+|---|---|---|
+| Roadmap | `docs/roadmap.md` | Now / Next / After + open-decisions register |
+| Transport layer map | `docs/transport-layers.md` | iroh-vs-Veilid layer map, the breakpoint, the narrow-port guardrail |
+| Transcript 269 | `../vivian-main/transcripts/raw/269-…-claude.md` | The upper-layer stack this substrate serves |
+| Transcript 271 | `../vivian-main/transcripts/raw/271-…-claude.md` | The design session that produced the 2026-06-03 decisions above |
