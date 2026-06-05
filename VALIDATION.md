@@ -335,7 +335,7 @@ real `Vault::unlock(password)` function in the next phase.
 
 ## Step 7 — Git state verification
 
-Three commits, all by `Chase Pettet <chase.mp@owasp.org>`:
+Three commits, all by `Chase Pettet <chase@owasp.org>`:
 
 ```bash
 git log --format="%h %an <%ae>  %s"
@@ -344,9 +344,9 @@ git log --format="%h %an <%ae>  %s"
 Expected output:
 
 ```
-5fe5b40 Chase Pettet <chase.mp@owasp.org>  Add Argon2id KEK derivation (kdf::derive_kek)
-0b4de13 Chase Pettet <chase.mp@owasp.org>  Add secretbox AEAD primitive (seal/open) for key-hierarchy unwrap
-37c956c Chase Pettet <chase.mp@owasp.org>  Initial commit: Phase 0 design + SymKey capability
+b6b306c Chase Pettet <chase@owasp.org>  Add Argon2id KEK derivation (kdf::derive_kek)
+c3c6fda Chase Pettet <chase@owasp.org>  Add secretbox AEAD primitive (seal/open) for key-hierarchy unwrap
+b40950a Chase Pettet <chase@owasp.org>  Initial commit: Phase 0 design + SymKey capability
 ```
 
 (Hashes may differ if commits were amended; the commit messages and
@@ -403,7 +403,7 @@ primitives only):
 | `kdf_matches_known_answer` fails | `dryoc` version drift, or hardware-specific code path issue | Run `cargo tree \| grep dryoc`; investigate version diff |
 | `clippy` fires new warnings | Code modified without TDD; new `#[allow]` needed | Consult `rust-enforcer.md` |
 | `cargo fmt --check` fails | New code added without running fmt | `cargo fmt` to fix |
-| Wrong author identity on commits | `git config user.email` is set to L360 identity | Use `git -c user.email="chase.mp@owasp.org"` per commit |
+| Wrong author identity on commits | `git config user.email` is set to L360 identity | Use `git -c user.email="chase@owasp.org"` per commit |
 
 ---
 
