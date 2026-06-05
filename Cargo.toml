@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/altdrive-core"]
+members = ["crates/altdrive-core", "crates/altdrive-spike-iroh"]
 resolver = "2"
 
 [workspace.package]

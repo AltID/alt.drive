@@ -1,0 +1,16 @@
+[package]
+name = "altdrive-spike-iroh"
+description = "Throwaway spike (Phase 0, Spike 2) — iroh-blobs hello-world between two nodes pinned to UDP 2112"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+iroh = "1.0.0-rc.1"
+iroh-blobs = "0.102"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-util", "signal"] }
+anyhow = "1"
