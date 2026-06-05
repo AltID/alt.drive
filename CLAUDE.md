@@ -1,12 +1,13 @@
 # Alt.Drive — Project Instructions
 
 This project follows the standards and discipline defined in
-`/Users/cpettet/git/chasemp/coding-agents/`. The relevant files are:
+`/home/ubuntu/coding-agents/` (sibling checkout on this machine; mirror
+of `chasemp/coding-agents` — paths differ per host). The relevant files:
 
-@/Users/cpettet/git/chasemp/coding-agents/CLAUDE.md
-@/Users/cpettet/git/chasemp/coding-agents/agents.md
-@/Users/cpettet/git/chasemp/coding-agents/tdd-guardian.md
-@/Users/cpettet/git/chasemp/coding-agents/rust-enforcer.md
+@/home/ubuntu/coding-agents/CLAUDE.md
+@/home/ubuntu/coding-agents/agents.md
+@/home/ubuntu/coding-agents/tdd-guardian.md
+@/home/ubuntu/coding-agents/rust-enforcer.md
 
 ## Project Context
 
